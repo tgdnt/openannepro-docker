@@ -30,4 +30,4 @@ The original script was shared by @zinosat [here](https://openannepro.github.io/
 
 ## To-do
 
-* Right now, if I update my keymap source, I have to run `docker image prune` and then rebuild the container again. Would be nice to create a script here that can be available in the container to just re-run it, pull my keymap source and rebuild it.
+* Right now, if I update my keymap source, I have to run `docker image prune -a` and then rebuild the container again. Would be nice to create a script here that can be available in the container to just re-run it, pull my keymap source and rebuild it.
