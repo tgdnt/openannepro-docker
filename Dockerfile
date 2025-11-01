@@ -29,7 +29,7 @@ RUN cd /home/dev; sudo -H -u dev git clone https://github.com/tgdnt/AnnePro2-Shi
     cd AnnePro2-Shine && make C18
 
 RUN cp /home/dev/AnnePro2-Tools/target/release/annepro2_tools /home/dev/
-RUN cp /home/dev/annepro-qmk/.build/annepro2_c18_default.bin /home/dev/
+RUN cp /home/dev/annepro-qmk/.build/annepro2_c18_hhkb.bin /home/dev/
 RUN cp /home/dev/AnnePro2-Shine/build/C18/annepro2-shine-C18.bin /home/dev/
 
 ENV TZ /usr/share/zoneinfo/America/Chicago
