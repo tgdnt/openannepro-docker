@@ -10,7 +10,9 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update -yq && DEBIAN_FRONTEND=noninte
 RUN DEBIAN_FRONTEND=noninteractive apt-get update -yq && \
   DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
   build-essential ca-certificates less git sudo \
-  pkg-config libusb-1.0-0-dev cargo gcc-arm-none-eabi libstdc++-arm-none-eabi-newlib python3 wget python3-pip gcc unzip wget zip gcc-avr binutils-avr avr-libc dfu-programmer dfu-util gcc-arm-none-eabi binutils-arm-none-eabi libnewlib-arm-none-eabi apt-utils build-essential
+  pkg-config libusb-1.0-0-dev cargo gcc-arm-none-eabi libstdc++-arm-none-eabi-newlib \
+  python3 wget python3-pip gcc unzip wget zip gcc-avr binutils-avr avr-libc dfu-programmer \
+  dfu-util gcc-arm-none-eabi binutils-arm-none-eabi libnewlib-arm-none-eabi apt-utils build-essential
 
 RUN python3 -m pip install qmk
 RUN qmk setup -y
