@@ -4,30 +4,74 @@ A docker script to build AnnePro2_Tools (the binary to flash firmware into the A
 
 ## How to use
 
-Run `docker build -t tgdnt/ap2:v1 .` to build the container. This will build AnnePro2_Tools, my layout and my shine firmware, and copy them to /home/dev
+Edit your keymap and push it to
+https://github.com/tgdnt/qmk_firmware.git so the docker
+container will fetch it from there.
 
-Then run `docker run --privileged -h ap2 --rm -it -v ${PWD}:/host --user $(id -u) -w /home/dev tgdnt/ap2:v1 bash`[^1] to get a terminal in the container, and copy the 3 files to /host, which will land them in the folder we ran docker from.
+Run `docker build -t tgdnt/ap2:v1 .` (without sudo) to build
+the container. This will build AnnePro2_Tools, my layout and
+my shine firmware, and copy them to /home/dev
 
-Connect the keyboard in IAP mode [^2], and run `./annepro2_tools annepro2_c18_tiago.bin` to flash the keymap and then `./annepro2_tools --boot -t led annepro2-shine-C18.bin` to flash the shine.
+NOTE: which layouts are copied to /home/dev is set in the
+Dockerfile. You can change that if you want to flash some
+other layout.
+
+Then run `docker run --privileged -h ap2 --rm -it -v
+${PWD}:/host --user $(id -u) -w /home/dev tgdnt/ap2:v1
+bash`[^1] to get a terminal in the container, and copy the 3
+files to /host, using `sudo cp annepro2* /host/` which will
+land them in the folder we ran docker from. You need to use
+sudo from inside the container or you won't have write
+permissions on /host/. Bear in mind that /host/ will
+correspond to the directory from which you ran docker on your
+host machine before entering the container shell.
+
+Connect the keyboard in IAP mode [^2], and run
+`./annepro2_tools annepro2_c18_tiago.bin` to flash the keymap
+and then `./annepro2_tools --boot -t led
+annepro2-shine-C18.bin` to flash the shine.
 
 The second command should also make it boot.
 
-Maintain my keymap source in https://github.com/tgdnt/annepro-qmk.git and docker pulls it from there to build.
+If you don't have a second keyboard you can run these commands in one line:
 
-[^1]: In short, this is supposed to give the container access to devices, though I'm not sure it's necessary, then set hostname to ap2, tells it to remove itself once it finishes, sets the present working directory to map to /host in the container, and start a bash session in there.
+``` bash
+sudo ./annepro2_tools annepro2_c18_tiago.bin && \
+sudo ./annepro2_tools --boot -t led annepro2-shine-C18.bin
+```
 
-[^2]: To put keyboard in IAP mode, connect it to computer while holding down escape, or press RSHIFT+LSHIFT+B if your keyboard already has a qmk firmware installed.
+My keymap source in
+https://github.com/tgdnt/qmk_firmware.git and docker pulls it
+from there to build.
+
+[^1]: In short, this is supposed to give the container access
+    to devices, though I'm not sure it's necessary, then set
+    hostname to ap2, tells it to remove itself once it
+    finishes, sets the present working directory to map to
+    /host in the container, and start a bash session in there.
+
+[^2]: To put keyboard in IAP mode, connect it to computer
+    while holding down escape, or press RSHIFT+LSHIFT+B if
+    your keyboard already has a qmk firmware installed.
 
 
 ## Credit
 
-The original script was shared by @zinosat [here](https://openannepro.github.io/install_docker.html).
+The original script was shared by @zinosat
+[here](https://openannepro.github.io/install_docker.html).
 
 ## Changelog
 
-* Removed line that makes the container fetch packages from a mirror that wasn't working.
-* Made it fetch annepro_qmk from my fork that only has my keymap and made it copy that binary file instead of the default one.
+* Removed line that makes the container fetch packages from a
+  mirror that wasn't working.
+* Made it fetch annepro_qmk from my fork that only has my
+  keymap and made it copy that binary file instead of the
+  default one.
 
 ## To-do
 
-* Right now, if I update my keymap source, I have to run `docker image prune -a` and then rebuild the container again. Would be nice to create a script here that can be available in the container to just re-run it, pull my keymap source and rebuild it.
+* Right now, if I update my keymap source, I have to run
+  `docker image prune -a` and then rebuild the container
+  again. Would be nice to create a script here that can be
+  available in the container to just re-run it, pull my keymap
+  source and rebuild it.
